@@ -1,13 +1,15 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+    kotlin("plugin.serialization") version "2.0.21"
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
     namespace = "app.wordquest"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "app.wordquest"
@@ -67,13 +69,38 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+
+
+
+    //Hilt
+    kapt ("com.google.dagger:hilt-android-compiler:2.51.1")
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+    implementation("androidx.hilt:hilt-work:1.0.0")
+    kapt("androidx.hilt:hilt-compiler:1.0.0")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+
+    implementation ("androidx.work:work-runtime-ktx:2.7.1")
+
+//    kapt ("com.google.dagger:hilt-android-compiler:2.51.1")
+//    //implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
+//    //kapt ("androidx.hilt:hilt-compiler:1.2.0")
+//    implementation("com.google.dagger:hilt-android:2.51.1")
+//    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+//    //implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+
     implementation("io.ktor:ktor-client-core:3.0.1")
-    implementation("io.ktor:ktor-client-cio:3.0.1")
     implementation ("io.ktor:ktor-client-android:3.0.1")
+    implementation ("io.ktor:ktor-client-content-negotiation:3.0.1")
     implementation("io.ktor:ktor-client-json:3.0.1")
     implementation ("io.ktor:ktor-client-serialization:3.0.1")
+    implementation ("io.ktor:ktor-serialization-kotlinx-json:3.0.1")
+    implementation ("io.ktor:ktor-client-logging:3.0.1")
+    //implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.21")
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
