@@ -51,13 +51,12 @@ android {
 dependencies {
     implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.21")
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.21")
-
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.navigation:navigation-compose:2.8.4")
@@ -76,6 +75,8 @@ dependencies {
     implementation("io.ktor:ktor-client-json:3.0.1")
     implementation ("io.ktor:ktor-client-serialization:3.0.1")
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
