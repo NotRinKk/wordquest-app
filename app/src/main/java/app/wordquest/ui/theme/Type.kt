@@ -9,7 +9,6 @@ import androidx.compose.ui.unit.sp
 import app.wordquest.R
 
 val robotoFamily = FontFamily(
-    Font(R.font.inter_regular),
     Font(R.font.inter_bold, FontWeight.Bold)
 )
 
