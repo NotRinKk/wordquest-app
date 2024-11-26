@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -22,6 +24,21 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+
+        buildConfigField(
+            type = "String",
+            name = "API_URL_LOGIN",
+            value = properties.getProperty("API_URL_LOGIN")
+        )
+        buildConfigField(
+            type = "String",
+            name = "API_URL_REGISTER",
+            value = properties.getProperty("API_URL_REGISTER")
+        )
+
     }
 
     buildTypes {
@@ -39,6 +56,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.7"
@@ -83,13 +101,6 @@ dependencies {
 
     implementation ("androidx.work:work-runtime-ktx:2.7.1")
 
-//    kapt ("com.google.dagger:hilt-android-compiler:2.51.1")
-//    //implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
-//    //kapt ("androidx.hilt:hilt-compiler:1.2.0")
-//    implementation("com.google.dagger:hilt-android:2.51.1")
-//    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
-//    //implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
-
 
     implementation("io.ktor:ktor-client-core:3.0.1")
     implementation ("io.ktor:ktor-client-android:3.0.1")
@@ -98,10 +109,8 @@ dependencies {
     implementation ("io.ktor:ktor-client-serialization:3.0.1")
     implementation ("io.ktor:ktor-serialization-kotlinx-json:3.0.1")
     implementation ("io.ktor:ktor-client-logging:3.0.1")
-    //implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.21")
     implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
-    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
     testImplementation(libs.junit)
