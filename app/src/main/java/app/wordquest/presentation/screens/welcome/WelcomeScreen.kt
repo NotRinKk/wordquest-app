@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,6 +27,7 @@ import app.wordquest.ui.theme.*
 fun WelcomeScreen(navController: NavController) {
     val screenHeight = LocalConfiguration.current.screenHeightDp
     var cardHeight by remember { mutableStateOf(0) }
+    var cardWidth by remember { mutableStateOf(0) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -58,6 +60,7 @@ fun WelcomeScreen(navController: NavController) {
                 .wrapContentSize()
                 .background(Purple, RoundedCornerShape((screenHeight * 0.03).dp))
                 .onSizeChanged { size ->
+                    cardWidth = size.width
                     cardHeight = size.height
                 }
         ) {
@@ -69,10 +72,25 @@ fun WelcomeScreen(navController: NavController) {
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Spacer(modifier = Modifier.weight(1f))
-                RoundedCornerButton("Зарегистрироваться", onClick = { navController.navigate(Screen.Registration.route) })
-                RoundedCornerButton("Войти", onClick = { navController.navigate(Screen.Login.route) })
+                RoundedCornerButton("Зарегистрироваться", onClick = { navController.navigate(Screen.Registration.route) },
+                    modifier = Modifier
+                        .width((cardWidth * 0.3).dp)
+                        .height((cardHeight * 0.15).dp))
+                RoundedCornerButton("Войти", onClick = { navController.navigate(Screen.Login.route) },
+                    modifier = Modifier
+                        .width((cardWidth * 0.3).dp)
+                        .height((cardHeight * 0.15).dp))
                 Spacer(modifier = Modifier.weight(1f))
             }
         }
     }
 }
+
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewCustomButton() {
+//    val mockNavController = rememberNavController() // Используем простую реализацию навигации
+//
+//    // Вставляем компонент WelcomeScreen в превью
+//    WelcomeScreen(navController = mockNavController)
+//}

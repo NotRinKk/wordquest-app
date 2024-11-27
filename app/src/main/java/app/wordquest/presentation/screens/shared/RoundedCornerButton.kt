@@ -24,10 +24,8 @@ fun RoundedCornerButton(
     modifier: Modifier = Modifier
 ) {
     Surface(
-        modifier = Modifier
-            .padding(16.dp)
-            .width(300.dp)
-            .height(70.dp)
+        modifier = modifier
+            .padding(vertical = 16.dp)
             .clickable(onClick = onClick),
         color = CarrotOrange,
         shape = RoundedCornerShape(15.dp)
