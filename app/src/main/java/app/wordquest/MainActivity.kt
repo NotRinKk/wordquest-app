@@ -14,12 +14,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Устанавливаем контент для Activity
         setContent {
             WordQuestTheme {
-                // Помещаем компонент навигации в тему
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    // Ваш компонент навигации, который управляет переходами между экранами
                     Navigation()
                 }
             }
