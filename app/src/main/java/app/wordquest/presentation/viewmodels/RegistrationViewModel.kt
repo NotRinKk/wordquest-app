@@ -6,6 +6,8 @@ import app.wordquest.data.remote.api.ApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,28 +16,32 @@ class RegistrationViewModel @Inject constructor(
     private val apiService: ApiService
 ) : ViewModel() {
 
-    var registrationState: RegistrationState = RegistrationState()
+    private val _registrationState = MutableStateFlow<RegistrationState>(RegistrationState.Idle)
+    val registrationState: StateFlow<RegistrationState> get() = _registrationState
 
     fun register(username: String, email: String, password: String) {
+        _registrationState.value = RegistrationState.Loading
+
         viewModelScope.launch {
             try {
-                val response: HttpResponse = apiService.register(username, password, email)
+                val response: HttpResponse = apiService.register(username, email, password)
                 if (response.status == HttpStatusCode.Created) {
-                    registrationState = RegistrationState(success = true)
+                    _registrationState.value = RegistrationState.Success
                 } else if (response.status == HttpStatusCode.BadRequest) {
-                    registrationState = RegistrationState(success = false, error = "Пользователь с таким логином уже существует")
+                    _registrationState.value = RegistrationState.Error("Пользователь с таким логином уже существует")
                 } else {
-                    registrationState = RegistrationState(success = false, error = "Ошибка на сервере")
+                    _registrationState.value = RegistrationState.Error("Ошибка на сервере")
                 }
             } catch (e: Exception) {
-                registrationState = RegistrationState(error = "Ошибка при регистрации")
+                _registrationState.value = RegistrationState.Error("Ошибка при регистрации: ${e.message}")
             }
         }
     }
 }
 
-data class RegistrationState(
-    val success: Boolean = false,
-    val error: String? = null,
-    val message: String? = null
-)
+sealed class RegistrationState {
+    object Idle : RegistrationState()
+    object Loading : RegistrationState()
+    object Success : RegistrationState()
+    data class Error(val message: String) : RegistrationState()
+}

@@ -1,124 +1,141 @@
 package app.wordquest.presentation.screens.registration
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import app.wordquest.presentation.screens.login.LoginScreen
+import app.wordquest.presentation.navigation.Screen
+import app.wordquest.presentation.screens.shared.CustomTextField
+import app.wordquest.presentation.screens.shared.RoundedCornerButton
+import app.wordquest.presentation.viewmodels.RegistrationState
 import app.wordquest.presentation.viewmodels.RegistrationViewModel
+import app.wordquest.ui.theme.CloudyGrey
+import app.wordquest.ui.theme.DarkPurple
+import app.wordquest.ui.theme.LightGrey
+import app.wordquest.ui.theme.typography
 
 @Composable
 fun RegistrationScreen(navController: NavController) {
-    val viewModel: RegistrationViewModel = viewModel()
-    var username by remember { mutableStateOf(TextFieldValue("")) }
-    var email by remember { mutableStateOf(TextFieldValue("")) }
-    var password by remember { mutableStateOf(TextFieldValue("")) }
+    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
-    val registrationState = viewModel.registrationState
+    val viewModel = hiltViewModel<RegistrationViewModel>()
 
-    // Handle successful registration
-    LaunchedEffect(registrationState.success) {
-        if (registrationState.success == true) {
-            navController.navigate("login_screen") {
-                popUpTo("registration_screen") { inclusive = true }
+    val registrationState by viewModel.registrationState.collectAsState()
+
+    LaunchedEffect(registrationState) {
+        if (registrationState is RegistrationState.Success) {
+            navController.navigate(Screen.Login.route) {
+                popUpTo(Screen.Registration.route) { inclusive = true }
             }
         }
     }
 
-    // UI for registration screen
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(DarkPurple)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Введите логин", style = MaterialTheme.typography.headlineSmall)
-        Spacer(modifier = Modifier.height(8.dp))
-        BasicTextField(
-            value = username,
-            onValueChange = { username = it },
-            modifier = Modifier.fillMaxWidth().padding(8.dp).border(1.dp, Color.Gray),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Next
-            )
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(text = "Введите почту", style = MaterialTheme.typography.headlineSmall)
-        Spacer(modifier = Modifier.height(8.dp))
-        BasicTextField(
-            value = email,
-            onValueChange = { email = it },
-            modifier = Modifier.fillMaxWidth().padding(8.dp).border(1.dp, Color.Gray),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Next
-            )
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(text = "Введите пароль", style = MaterialTheme.typography.headlineSmall)
-        Spacer(modifier = Modifier.height(8.dp))
-        BasicTextField(
-            value = password,
-            onValueChange = { password = it },
-            modifier = Modifier.fillMaxWidth().padding(8.dp).border(1.dp, Color.Gray),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Password
-            )
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = {
-                viewModel.register(username.text, email.text, password.text)
-            },
-            modifier = Modifier.fillMaxWidth()
+        Card(
+            colors = CardDefaults.cardColors(containerColor = LightGrey)
         ) {
-            Text(text = "Зарегистрироваться")
-        }
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .padding(vertical = 25.dp)
+            ) {
+                Text(
+                    "Регистрация",
+                    modifier = Modifier
+                        .padding(vertical = 45.dp),
+                    style = typography.headlineLarge
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                Column (
+                    modifier = Modifier.padding(horizontal = 20.dp)
+                ) {
+                    Text(
+                        text = "Придумайте логин",
+                        style = typography.headlineSmall.copy(
+                            color = Color.Black
+                        ),
+                        textAlign = TextAlign.Left,
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
 
+                    CustomTextField(
+                        value = username,
+                        onValueChange = { username = it },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
-        registrationState.error?.let {
-            Text(text = it, color = Color.Red)
-        }
+                    Text(
+                        text = "Придумайте пароль",
+                        style = typography.headlineSmall.copy(
+                            color = Color.Black
+                        ),
+                        textAlign = TextAlign.Left,
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                    CustomTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
 
-        registrationState.message?.let {
-            Text(text = it, color = Color.Green)
-        }
+                    Text(
+                        text = "Введите почту",
+                        style = typography.headlineSmall.copy(
+                            color = Color.Black
+                        ),
+                        textAlign = TextAlign.Left,
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                    CustomTextField(
+                        value = email,
+                        onValueChange = { email = it },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(55.dp))
+                    RoundedCornerButton("Зарегистрироваться", onClick = { viewModel.register(username, email, password) },
+                        modifier = Modifier
+                            .height(100.dp)
+                            .fillMaxWidth())
+                    Spacer(modifier = Modifier.height(10.dp))
+                    if (registrationState is RegistrationState.Loading) {
+                        CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+                    }
 
-        if (registrationState.success == null) {
-            CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+                    if (registrationState is RegistrationState.Error) {
+                        Text(
+                            text = (registrationState as RegistrationState.Error).message,
+                            color = Color.Red
+                        )
+                    }
+                }
+            }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun RegistrationScreenPreview() {
-    val navController = rememberNavController()
-    RegistrationScreen(navController = navController)
 }
