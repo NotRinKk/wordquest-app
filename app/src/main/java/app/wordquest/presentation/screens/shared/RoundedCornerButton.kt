@@ -23,7 +23,6 @@ fun RoundedCornerButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // Кастомная кнопка с прямоугольной формой и закругленными углами
     Surface(
         modifier = Modifier
             .padding(16.dp)
