@@ -19,12 +19,23 @@ class HomeViewModel @Inject constructor(
     private val _homeState = MutableStateFlow<HomeState>(HomeState.Loading)
     val homeState: StateFlow<HomeState> get() = _homeState
 
-    fun getNewWord(ids: List<Int>) {
+    fun getNewWord() {
         viewModelScope.launch {
             _homeState.value = HomeState.Loading
             try {
-                val wordResponse = wordRepository.getNewWord(ids)
-                _homeState.value = HomeState.Success(wordResponse!!)
+                // Получаем список всех сохраненных wordId из базы
+                val savedWordIds = wordRepository.getAllWordIds()
+
+                // Если в базе нет сохраненных слов, передаем пустой список на сервер
+                val wordResponse = wordRepository.getNewWord(savedWordIds.ifEmpty { listOf() })
+
+                if (wordResponse != null) {
+                    // Сохраняем полученные данные в базу данных
+                    wordRepository.saveWord(wordResponse)
+                    _homeState.value = HomeState.Success(wordResponse)
+                } else {
+                    _homeState.value = HomeState.Error("No new words found")
+                }
             } catch (e: Exception) {
                 _homeState.value = HomeState.Error("Failed to load word: ${e.message}")
             }

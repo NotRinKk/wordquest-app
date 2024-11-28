@@ -25,8 +25,6 @@ fun HomeScreen(navController: NavController) {
 
     val homeState by viewModel.homeState.collectAsState()
 
-    val learnedWordIds = listOf(1)
-
     when (val state = homeState) {
         is HomeState.Loading -> {
             CircularProgressIndicator(modifier = Modifier.fillMaxWidth().aspectRatio(1f))
@@ -35,8 +33,7 @@ fun HomeScreen(navController: NavController) {
             Text(text = state.message, color = androidx.compose.ui.graphics.Color.Red)
         }
         is HomeState.Success -> {
-            // список слов
-
+            navController.navigate(Screen.NewWord.route)
         }
         else -> {}
     }
@@ -58,9 +55,7 @@ fun HomeScreen(navController: NavController) {
             Spacer(modifier = Modifier.weight(2f))
 
             RoundedCornerButton(
-                "Изучить новое слово", onClick = {
-                    viewModel.getNewWord(learnedWordIds)
-                    navController.navigate(Screen.NewWord.route) },
+                "Изучить новое слово", onClick = { viewModel.getNewWord() },
                 modifier = Modifier
                     .height(100.dp)
                     .fillMaxWidth()

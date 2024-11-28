@@ -1,5 +1,6 @@
 package app.wordquest.data.local.repository
 
+import androidx.room.PrimaryKey
 import app.wordquest.data.local.dao.WordDao
 import app.wordquest.data.local.entities.*
 import app.wordquest.data.remote.api.ApiService
@@ -11,67 +12,53 @@ class WordRepository @Inject constructor(
     private val apiService: ApiService
 ) {
 
+    // Получение всех сохраненных wordId из базы данных
+    suspend fun getAllWordIds(): List<Int> {
+        return wordDao.getAllWordIds()
+    }
+
+    // Получение нового слова по списку ids
     suspend fun getNewWord(ids: List<Int>): WordResponse? {
-        val word = apiService.getNewWord(ids)
-        word?.let {
-            // Сохраняем WordId
-            wordDao.insertWordId(WordIdEntity(it.wordId))
+        return apiService.getNewWord(ids)
+    }
 
-            // Сохраняем текст слова и перевод
-            wordDao.insertWordText(
-                WordTextEntity(
-                    wordId = it.wordId,
-                    wordText = it.wordText,
-                    translation = it.translation
-                )
-            )
+    // Сохранение данных о новом слове и всех его компонентах
+    suspend fun saveWord(wordResponse: WordResponse) {
+        // Сохраняем основное слово (wordId и текст)
+        wordDao.insertWord(WordTextEntity(wordResponse.wordId, wordResponse.wordText, wordResponse.translation))
 
-            // Вставляем определения
-            it.definition.forEachIndexed { index, definition ->
-                wordDao.insertWordDefinition(
-                    WordDefinitionEntity(
-                        wordId = it.wordId,
-                        definition = definition
-                    )
-                )
-            }
-
-            // Вставляем переводы определений
-            it.definitionTranslation.forEachIndexed { index, definitionTranslation ->
-                wordDao.insertWordDefinitionTranslation(
-                    WordDefinitionTranslationEntity(
-                        wordId = it.wordId,
-                        definitionTranslation = definitionTranslation
-                    )
-                )
-            }
-
-            // Вставляем примеры предложений
-            it.exampleSentences.forEachIndexed { index, sentence ->
-                wordDao.insertExampleSentence(
-                    ExampleSentenceEntity(
-                        wordId = it.wordId,
-                        sentence = sentence
-                    )
-                )
-            }
-
-            // Вставляем переводы примеров предложений
-            it.exampleSentenceTranslations.forEachIndexed { index, sentenceTranslation ->
-                wordDao.insertExampleSentenceTranslation(
-                    ExampleSentenceTranslationEntity(
-                        wordId = it.wordId,
-                        sentenceTranslation = sentenceTranslation
-                    )
-                )
-            }
-
-            // Вставляем аудио
-            it.audioUrl?.let { audioUrl ->
-                wordDao.insertAudioData(AudioEntity(it.wordId, audioUrl))
-            }
+        // Сохраняем аудио URL
+        wordResponse.audioUrl?.let { audioUrl ->
+            wordDao.insertAudio(AudioEntity(wordResponse.wordId, audioUrl))
         }
-        return word
+
+        // Сохраняем перевод
+        wordResponse.definition.forEach { definition ->
+            wordDao.insertDefinition(WordDefinitionEntity(
+                    wordId = wordResponse.wordId,
+                    definition = definition))
+        }
+
+        wordResponse.definitionTranslation.forEach { translation ->
+            wordDao.insertDefinitionTranslation(WordDefinitionTranslationEntity(
+                    wordId = wordResponse.wordId,
+                    definitionTranslation = translation))
+        }
+
+        wordResponse.exampleSentences.forEach { sentence ->
+            wordDao.insertExampleSentence(ExampleSentenceEntity(
+                    wordId = wordResponse.wordId,
+                    sentence = sentence))
+        }
+
+        wordResponse.exampleSentenceTranslations.forEach { sentenceTranslation ->
+            wordDao.insertExampleSentenceTranslation(ExampleSentenceTranslationEntity(
+                    wordId = wordResponse.wordId,
+                    sentenceTranslation = sentenceTranslation))
+        }
+
+        // Сохраняем только wordId в отдельной таблице
+        wordDao.insertWordId(WordIdEntity(wordResponse.wordId))
     }
 
     // Функция для очистки всех данных
