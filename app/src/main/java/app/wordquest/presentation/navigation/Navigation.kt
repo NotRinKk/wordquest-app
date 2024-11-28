@@ -8,11 +8,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import app.wordquest.presentation.screens.account.AccountScreen
+import app.wordquest.presentation.screens.game.GameScreen
 import app.wordquest.presentation.screens.home.HomeScreen
 import app.wordquest.presentation.screens.login.LoginScreen
 import app.wordquest.presentation.screens.newword.NewWordScreen
 import app.wordquest.presentation.screens.registration.RegistrationScreen
-import app.wordquest.presentation.screens.shared.BottomBar
+import app.wordquest.presentation.screens.settings.SettingsScreen
 import app.wordquest.presentation.screens.welcome.WelcomeScreen
 import app.wordquest.presentation.screens.wordlist.WordListScreen
 
@@ -50,6 +52,15 @@ fun Navigation() {
             }
             composable(Screen.WordList.route) {
                 WordListScreen(navController)
+            }
+            composable(Screen.Game.route) {
+                GameScreen(navController)
+            }
+            composable(Screen.Account.route) {
+                AccountScreen(navController)
+            }
+            composable(Screen.Settings.route) {
+                SettingsScreen(navController)
             }
         }
     }

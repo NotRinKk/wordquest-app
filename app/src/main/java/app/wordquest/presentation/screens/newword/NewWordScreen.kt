@@ -89,10 +89,3 @@ fun NewWordScreen(navController: NavController) {
         Spacer(modifier = Modifier.weight(2f))
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewNewWord() {
-    val mockNavController = rememberNavController()
-    NewWordScreen(navController = mockNavController)
-}

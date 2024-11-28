@@ -1,11 +1,11 @@
 package app.wordquest.presentation.screens.wordlist
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -42,6 +43,19 @@ fun WordListScreen(navController: NavController) {
         .fillMaxSize()
         .background(DarkPurple)
     ) {
+        Text(
+            text = "Список слов",
+            textAlign = TextAlign.Left,
+            color = White,
+            style = typography.headlineLarge,
+            modifier = Modifier
+                .padding(20.dp)
+                .align(Alignment.Start)
+        )
+        HorizontalDivider(
+            thickness = 2.dp,
+            color = Color.White
+        )
         when (wordListState) {
             is WordListState.Loading -> {
                 CircularProgressIndicator(modifier = Modifier.fillMaxWidth().aspectRatio(1f))
@@ -72,15 +86,6 @@ fun WordListScreen(navController: NavController) {
             }
         }
 
-        Text(
-            text = "Для того чтобы посмотреть перевод слова, достаточно нажать на нужное слово",
-            style = typography.bodyMedium,
-            color = White,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .align(Alignment.CenterHorizontally)
-        )
         Spacer(modifier = Modifier.weight(1f))
 
         // Показываем карточку с подробной информацией и аудио, если данные выбраны

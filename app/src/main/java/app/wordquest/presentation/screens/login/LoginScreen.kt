@@ -104,7 +104,8 @@ fun LoginScreen(navController: NavController) {
                     CustomTextField(
                         value = password,
                         onValueChange = { password = it },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        sensetive = true
                     )
                     Spacer(modifier = Modifier.height(20.dp))
                     RoundedCornerButton("Авторизация", onClick = { viewModel.login(username, password) },

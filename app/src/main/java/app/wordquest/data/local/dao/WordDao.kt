@@ -40,7 +40,7 @@ interface WordDao {
     @Insert
     suspend fun insertWordId(wordIdEntity: WordIdEntity)
 
-    // Получение всех слов из таблицы "word_text"
+    // Получение всех слов из таблицы word_text
     @Query("SELECT * FROM word_text")
     suspend fun getAllWords(): List<WordTextEntity>
 
@@ -71,6 +71,9 @@ interface WordDao {
     // Получаем аудио по wordId
     @Query("SELECT * FROM audio_data WHERE wordId = :wordId")
     suspend fun getAudioByWordId(wordId: Int): AudioEntity?
+
+    @Query("SELECT COUNT(*) FROM word_ids")
+    suspend fun getStudiedWordsCount(): Int
 
     // Очистить все данные
     @Query("DELETE FROM word_ids")

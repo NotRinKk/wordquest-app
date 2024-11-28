@@ -11,7 +11,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import app.wordquest.R
 import app.wordquest.presentation.navigation.Screen
-import app.wordquest.presentation.screens.shared.BottomBar
 import app.wordquest.presentation.screens.shared.MaxWidthImage
 import app.wordquest.presentation.screens.shared.RoundedCornerButton
 import app.wordquest.presentation.viewmodels.HomeState

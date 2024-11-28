@@ -1,6 +1,5 @@
 package app.wordquest.data.local.repository
 
-import androidx.room.PrimaryKey
 import app.wordquest.data.local.dao.WordDao
 import app.wordquest.data.local.entities.*
 import app.wordquest.data.remote.api.ApiService
@@ -36,6 +35,11 @@ class WordRepository @Inject constructor(
     // Получаем аудио по wordId
     suspend fun getAudioByWordId(wordId: Int): AudioEntity? {
         return wordDao.getAudioByWordId(wordId)
+    }
+
+    // Получаем кол-во изученных слов
+    suspend fun getStudiedWordsCount(): Int {
+        return wordDao.getStudiedWordsCount()
     }
 
     // Получаем все данные, связанные с последним wordId

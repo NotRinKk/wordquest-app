@@ -2,24 +2,20 @@ package app.wordquest.presentation.screens.registration
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import app.wordquest.presentation.navigation.Screen
 import app.wordquest.presentation.screens.shared.CustomTextField
 import app.wordquest.presentation.screens.shared.RoundedCornerButton
 import app.wordquest.presentation.viewmodels.RegistrationState
 import app.wordquest.presentation.viewmodels.RegistrationViewModel
-import app.wordquest.ui.theme.CloudyGrey
 import app.wordquest.ui.theme.DarkPurple
 import app.wordquest.ui.theme.LightGrey
 import app.wordquest.ui.theme.typography
@@ -99,7 +95,8 @@ fun RegistrationScreen(navController: NavController) {
                     CustomTextField(
                         value = password,
                         onValueChange = { password = it },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        sensetive = true
                     )
                     Spacer(modifier = Modifier.height(10.dp))
 
