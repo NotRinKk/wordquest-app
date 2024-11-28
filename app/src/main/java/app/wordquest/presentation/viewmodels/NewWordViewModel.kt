@@ -18,7 +18,7 @@ class NewWordViewModel @Inject constructor(
     private val _newWordState = MutableStateFlow<NewWordState>(NewWordState.Loading)
     val newWordState: StateFlow<NewWordState> get() = _newWordState
 
-    // Функция для получения последнего слова
+    // Для получения последнего слова
     fun getLastWord() {
         viewModelScope.launch {
             _newWordState.value = NewWordState.Loading

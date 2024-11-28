@@ -18,6 +18,11 @@ class WordRepository @Inject constructor(
         return wordDao.getAllWordIds()
     }
 
+    // Получение всех слов из таблицы word_text
+    suspend fun getAllWords(): List<WordTextEntity> {
+        return wordDao.getAllWords()
+    }
+
     // Получение нового слова по списку ids
     suspend fun getNewWord(ids: List<Int>): WordResponse? {
         return apiService.getNewWord(ids)
@@ -28,6 +33,11 @@ class WordRepository @Inject constructor(
         return wordDao.getLastWordId()
     }
 
+    // Получаем аудио по wordId
+    suspend fun getAudioByWordId(wordId: Int): AudioEntity? {
+        return wordDao.getAudioByWordId(wordId)
+    }
+
     // Получаем все данные, связанные с последним wordId
     suspend fun getWordDataById(wordId: Int): WordData? {
         // Получаем данные для этого wordId из всех таблиц
@@ -36,7 +46,6 @@ class WordRepository @Inject constructor(
         val translations = wordDao.getDefinitionTranslationsByWordId(wordId)
         val exampleSentences = wordDao.getExampleSentencesByWordId(wordId)
         val exampleSentenceTranslations = wordDao.getExampleSentenceTranslationsByWordId(wordId)
-        //val audio = wordDao.getAudioByWordId(wordId)
 
         return wordText?.let {
             WordData(

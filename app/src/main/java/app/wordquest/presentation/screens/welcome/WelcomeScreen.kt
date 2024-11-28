@@ -85,12 +85,3 @@ fun WelcomeScreen(navController: NavController) {
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewCustomButton() {
-//    val mockNavController = rememberNavController() // Используем простую реализацию навигации
-//
-//    // Вставляем компонент WelcomeScreen в превью
-//    WelcomeScreen(navController = mockNavController)
-//}

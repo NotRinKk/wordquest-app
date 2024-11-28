@@ -14,6 +14,7 @@ import app.wordquest.presentation.screens.newword.NewWordScreen
 import app.wordquest.presentation.screens.registration.RegistrationScreen
 import app.wordquest.presentation.screens.shared.BottomBar
 import app.wordquest.presentation.screens.welcome.WelcomeScreen
+import app.wordquest.presentation.screens.wordlist.WordListScreen
 
 @Composable
 fun Navigation() {
@@ -46,6 +47,9 @@ fun Navigation() {
             }
             composable(Screen.NewWord.route) {
                 NewWordScreen(navController)
+            }
+            composable(Screen.WordList.route) {
+                WordListScreen(navController)
             }
         }
     }

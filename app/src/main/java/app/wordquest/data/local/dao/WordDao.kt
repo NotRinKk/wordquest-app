@@ -40,6 +40,10 @@ interface WordDao {
     @Insert
     suspend fun insertWordId(wordIdEntity: WordIdEntity)
 
+    // Получение всех слов из таблицы "word_text"
+    @Query("SELECT * FROM word_text")
+    suspend fun getAllWords(): List<WordTextEntity>
+
     // Получаем последний wordId из таблицы word_ids
     @Query("SELECT wordId FROM word_ids ORDER BY wordId DESC LIMIT 1")
     suspend fun getLastWordId(): Int?
