@@ -16,12 +16,11 @@ class LoginViewModel @Inject constructor(
     private val apiService: ApiService
 ) : ViewModel() {
 
-    // Состояние для отображения в UI
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
     val loginState: StateFlow<LoginState> get() = _loginState
 
     fun login(username: String, password: String) {
-        _loginState.value = LoginState.Loading // Начинаем загрузку
+        _loginState.value = LoginState.Loading
 
         viewModelScope.launch {
             try {

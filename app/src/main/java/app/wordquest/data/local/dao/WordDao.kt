@@ -40,6 +40,34 @@ interface WordDao {
     @Insert
     suspend fun insertWordId(wordIdEntity: WordIdEntity)
 
+    // Получаем последний wordId из таблицы word_ids
+    @Query("SELECT wordId FROM word_ids ORDER BY wordId DESC LIMIT 1")
+    suspend fun getLastWordId(): Int?
+
+    // Получаем данные о слове (wordText) по wordId
+    @Query("SELECT * FROM word_text WHERE wordId = :wordId")
+    suspend fun getWordTextById(wordId: Int): WordTextEntity?
+
+    // Получаем определения по wordId
+    @Query("SELECT * FROM word_definition WHERE wordId = :wordId")
+    suspend fun getDefinitionsByWordId(wordId: Int): List<WordDefinitionEntity>
+
+    // Получаем переводы определений по wordId
+    @Query("SELECT * FROM word_definition_translation WHERE wordId = :wordId")
+    suspend fun getDefinitionTranslationsByWordId(wordId: Int): List<WordDefinitionTranslationEntity>
+
+    // Получаем примеры предложений по wordId
+    @Query("SELECT * FROM example_sentence WHERE wordId = :wordId")
+    suspend fun getExampleSentencesByWordId(wordId: Int): List<ExampleSentenceEntity>
+
+    // Получаем переводы примеров предложений по wordId
+    @Query("SELECT * FROM example_sentence_translation WHERE wordId = :wordId")
+    suspend fun getExampleSentenceTranslationsByWordId(wordId: Int): List<ExampleSentenceTranslationEntity>
+
+    // Получаем аудио по wordId
+    @Query("SELECT * FROM audio_data WHERE wordId = :wordId")
+    suspend fun getAudioByWordId(wordId: Int): AudioEntity?
+
     // Очистить все данные
     @Query("DELETE FROM word_ids")
     suspend fun deleteAllWordIds()

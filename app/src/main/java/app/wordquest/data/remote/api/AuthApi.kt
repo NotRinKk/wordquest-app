@@ -54,7 +54,6 @@ class ApiServiceImpl @Inject constructor(private val client: HttpClient) : ApiSe
             val responseBody = response.bodyAsText()
             return Json.decodeFromString<WordResponse>(responseBody)
         } else {
-            //
             return null
         }
     }
