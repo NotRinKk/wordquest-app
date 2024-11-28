@@ -2,7 +2,9 @@ package app.wordquest.data.remote.api
 
 import app.wordquest.BuildConfig
 import app.wordquest.data.remote.dto.LoginRequest
+import app.wordquest.data.remote.dto.NewWordRequest
 import app.wordquest.data.remote.dto.RegisterRequest
+import app.wordquest.data.remote.dto.WordResponse
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -34,6 +36,26 @@ class ApiServiceImpl @Inject constructor(private val client: HttpClient) : ApiSe
             header(HttpHeaders.ContentType, ContentType.Application.Json)
             contentType(ContentType.Application.Json)
             setBody(Json.encodeToString(request))
+        }
+    }
+
+    override suspend fun getNewWord(ids: List<Int>): WordResponse? {
+        val urlNewWord = BuildConfig.API_URL_NEW_WORD
+        val request = NewWordRequest(ids)
+
+        val response: HttpResponse = client.post {
+            url(urlNewWord)
+            header(HttpHeaders.ContentType, ContentType.Application.Json)
+            contentType(ContentType.Application.Json)
+            setBody(Json.encodeToString(request))
+        }
+
+        if (response.status.isSuccess()) {
+            val responseBody = response.bodyAsText()
+            return Json.decodeFromString<WordResponse>(responseBody)
+        } else {
+            //
+            return null
         }
     }
 }

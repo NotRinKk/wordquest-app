@@ -38,6 +38,11 @@ android {
             name = "API_URL_REGISTER",
             value = properties.getProperty("API_URL_REGISTER")
         )
+        buildConfigField(
+            type = "String",
+            name = "API_URL_NEW_WORD",
+            value = properties.getProperty("API_URL_NEW_WORD")
+        )
 
     }
 
