@@ -27,11 +27,11 @@ fun WordCardDialog(wordData: WordData, audioUrl: String?, onDismiss: () -> Unit)
             modifier = Modifier
                 .height(380.dp)
                 .width(380.dp)
-                .padding(3.dp)
+                .padding(10.dp)
         ) {
             Column(
                 modifier = Modifier
-                    .padding(7.dp)
+                    .padding(10.dp)
                     .verticalScroll(scrollState)
             ) {
                 // Слово и перевод
@@ -75,7 +75,7 @@ fun WordCardDialog(wordData: WordData, audioUrl: String?, onDismiss: () -> Unit)
                 }
 
                 // Кнопка для воспроизведения аудио, если URL доступен
-                if (audioUrl != null) {
+                if (audioUrl != null && audioUrl != "") {
                     Spacer(modifier = Modifier.height(16.dp))
                     RoundedCornerButton(
                         onClick = {

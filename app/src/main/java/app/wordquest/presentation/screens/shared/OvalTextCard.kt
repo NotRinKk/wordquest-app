@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.wordquest.ui.theme.White
 import app.wordquest.ui.theme.typography
@@ -33,11 +32,4 @@ fun OvalTextCard(text: String) {
                     .align(Alignment.Center)
             )
         }
-}
-
-@Preview()
-@Composable
-fun OvalPreview() {
-
-    OvalTextCard("Text")
 }
