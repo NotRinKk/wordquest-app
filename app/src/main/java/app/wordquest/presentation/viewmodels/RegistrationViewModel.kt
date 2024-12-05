@@ -24,7 +24,7 @@ class RegistrationViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val response: HttpResponse = apiService.register(username, email, password)
+                val response: HttpResponse = apiService.register(username, password, email)
                 if (response.status == HttpStatusCode.Created) {
                     _registrationState.value = RegistrationState.Success
                 } else if (response.status == HttpStatusCode.BadRequest) {
